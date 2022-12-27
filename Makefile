@@ -3,6 +3,8 @@ service_requests.db : service_requests.csv
 	sqlite-utils convert $@ service_requests CREATED_DATE 'r.parsedatetime(value)'
 	sqlite-utils convert $@ service_requests LAST_MODIFIED_DATE 'r.parsedatetime(value)'
 	sqlite-utils convert $@ service_requests CLOSED_DATE 'r.parsedatetime(value)'
+	sqlite-utils transform $@ service_requests --pk SR_NUMBER
+	sqlite-utils create-index $@ service_requests CREATED_DATE
 
 service_requests.csv : service_requests.csv.gz
 	gunzip $<
