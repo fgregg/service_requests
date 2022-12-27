@@ -1,5 +1,5 @@
 service_requests.db : service_requests.csv
-	csvs-to-sqlite $^ $@
+	csv-to-sqlite -f service_requests.csv -o service_requests.db
 	sqlite-utils convert $@ service_requests CREATED_DATE 'r.parsedatetime(value)'
 	sqlite-utils convert $@ service_requests LAST_MODIFIED_DATE 'r.parsedatetime(value)'
 	sqlite-utils convert $@ service_requests CLOSED_DATE 'r.parsedatetime(value)'

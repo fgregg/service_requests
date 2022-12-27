@@ -1,2 +1,2 @@
-csvs-to-sqlite
+csv-to-sqlite
 sqlite-utils
