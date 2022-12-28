@@ -13,8 +13,14 @@ service_requests.csv.gz :
 	wget --header="accept-encoding: gzip" -O $@ "https://data.cityofchicago.org/api/views/v6vf-nfxy/rows.csv?accessType=DOWNLOAD"
 
 ## Analysis
-parameters.csv : 2022_service.csv
+.PHONY : parameters
+parameters : alder_parameters.csv ward_parameters.csv
+
+alder_parameters.csv : 2022_service.csv
 	Rscript estimate_alderman_effect.R
+
+ward_parameters.csv : 2022_service.csv
+	Rscript estimate_ward_effect.R
 
 2022_service.csv : service_requests.db
 	cat scripts/2022_requests.sql | sqlite3 -header -csv $< > $@
