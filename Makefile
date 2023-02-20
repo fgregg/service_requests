@@ -54,7 +54,7 @@ test.db : attributes.csv geo_areas.csv notes.details.csv requests.csv	\
 requests.csv : raw_requests_2018.csv raw_requests_2019.csv raw_requests_2020.csv raw_requests_2021.csv raw_requests_2022.csv raw_requests_2023.csv
 	csvstack $^ | sed -r '1s/[a-z0-9]+\.//g' > $@
 
-requests.%.csv : request_2018.%.csv request_2019.%.csv request_2020.%.csv request_2021.%.csv request_2022.%.csv request_2023.%.csv
+requests.%.csv : requests_2018.%.csv requests_2019.%.csv requests_2020.%.csv requests_2021.%.csv requests_2022.%.csv requests_2023.%.csv
 	csvstack $^ > $@
 
 requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv raw_requests_%.csv requests_%.notes.csv requests_%.photos.csv : service_requests_api_%.json
