@@ -43,11 +43,6 @@ portal_service_requests.csv : portal_service_requests.csv.gz
 portal_service_requests.csv.gz :
 	wget --header="accept-encoding: gzip" -O $@ "https://data.cityofchicago.org/api/views/v6vf-nfxy/rows.csv?accessType=DOWNLOAD"
 
-test.db : attributes.csv geo_areas.csv notes.details.csv requests.csv	\
-          notes.csv photos.csv
-	csv-to-sqlite $^ $@
-
-
 %.csv : requests.%.csv
 	sed -r '1s/[a-z0-9]+\.//g' $< > $@
 
