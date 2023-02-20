@@ -43,31 +43,38 @@ portal_service_requests.csv : portal_service_requests.csv.gz
 portal_service_requests.csv.gz :
 	wget --header="accept-encoding: gzip" -O $@ "https://data.cityofchicago.org/api/views/v6vf-nfxy/rows.csv?accessType=DOWNLOAD"
 
+test.db : attributes.csv geo_areas.csv notes.details.csv requests.csv	\
+          notes.csv photos.csv
+	csv-to-sqlite $^ $@
+
+
 %.csv : requests.%.csv
 	sed -r '1s/[a-z0-9]+\.//g' $< > $@
 
-requests.csv : raw_requests.csv
-	sed -r '1s/[a-z0-9]+\.//g' $< > $@
+requests.csv : raw_requests_2018.csv raw_requests_2019.csv raw_requests_2020.csv raw_requests_2021.csv raw_requests_2022.csv raw_requests_2023.csv
+	csvstack $^ | sed -r '1s/[a-z0-9]+\.//g' > $@
 
-requests.attributes.csv requests.geo_areas.csv requests.notes.details.csv raw_requests.csv requests.notes.csv requests.photos.csv : service_requests_api.json
+requests.%.csv : request_2018.%.csv request_2019.%.csv request_2020.%.csv request_2021.%.csv request_2022.%.csv request_2023.%.csv
+	csvstack $^ > $@
+
+requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv raw_requests_%.csv requests_%.notes.csv requests_%.photos.csv : service_requests_api_%.json
 	json-to-multicsv.pl \
             --path /:table:requests \
             --path /*/extended_attributes/geo_areas:table:geo_areas \
             --path /*/extended_attributes/photos:table:photos \
-            --path /*/extended_attributes:column \
+  -         --path /*/extended_attributes:column \
             --path /*/notes/:table:notes \
             --path /*/notes/*/extended_attributes:column \
             --path /*/notes/*/extended_attributes/details/:table:details \
             --path /*/attributes/:table:attributes \
             --file $<
-	mv requests.csv raw_requests.csv
+	mv requests_%.csv raw_requests_%.csv
 
-# json-to-mulicsv can't handle bools, https://github.com/jsnell/json-to-multicsv/issues/5
-service_requests_api.json: service_requests_api.ldjson
+service_requests_api_%.json: service_requests_api_%.ldjson
 	cat $< | jq -s '.' > $@
 
-service_requests_api.ldjson :
-	chicagorequests --start-date=2018-01-01 | sort | uniq > $@
+service_requests_api_%.ldjson :
+	chicagorequests --start-date=$(*)-01-01 --end-date=$(*)-12-31| sort | uniq > $@
 
 ## Analysis
 .PHONY : parameters

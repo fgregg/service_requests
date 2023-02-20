@@ -34,7 +34,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: build database
         run: |- 
-           make
+           make test.db
            zip service_requests.db.zip service_requests.db
       - name: release
         uses: WebFreak001/deploy-nightly@v1.2.0
