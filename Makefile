@@ -68,7 +68,7 @@ requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv 
             --path /*/notes/*/extended_attributes/details/:table:details \
             --path /*/attributes/:table:attributes \
             --file $<
-	mv requests_%.csv raw_requests_%.csv
+	mv requests_$(*).csv raw_requests_$(*).csv
 
 service_requests_api_%.json: service_requests_api_%.ldjson
 	cat $< | jq -s '.' > $@
