@@ -59,7 +59,7 @@ requests.%.csv : requests_2018.%.csv requests_2019.%.csv requests_2020.%.csv req
 
 requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv raw_requests_%.csv requests_%.notes.csv requests_%.photos.csv : service_requests_api_%.json
 	json-to-multicsv.pl \
-            --path /:table:requests \
+            --path /:table:requests_$(*) \
             --path /*/extended_attributes/geo_areas:table:geo_areas \
             --path /*/extended_attributes/photos:table:photos \
   -         --path /*/extended_attributes:column \
