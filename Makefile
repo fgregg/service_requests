@@ -46,10 +46,10 @@ portal_service_requests.csv.gz :
 %.csv : requests.%.csv
 	sed -r '1s/[a-z0-9]+\.//g' $< > $@
 
-requests.csv : raw_requests_2018.csv raw_requests_2019.csv raw_requests_2020.csv raw_requests_2021.csv raw_requests_2022.csv raw_requests_2023.csv
+requests.csv : raw_requests_2018_a.csv raw_requests_2019_a.csv raw_requests_2020_a.csv raw_requests_2021_a.csv raw_requests_2022_a.csv raw_requests_2023_a.csv raw_requests_2018_b.csv raw_requests_2019_b.csv raw_requests_2020_b.csv raw_requests_2021_b.csv raw_requests_2022_b.csv raw_requests_2023_b.csv
 	csvstack $^ | sed -r '1s/[a-z0-9]+\.//g' > $@
 
-requests.%.csv : requests_2018.%.csv requests_2019.%.csv requests_2020.%.csv requests_2021.%.csv requests_2022.%.csv requests_2023.%.csv
+requests.%.csv : requests_2018_a.%.csv requests_2019_a.%.csv requests_2020_a.%.csv requests_2021_a.%.csv requests_2022_a.%.csv requests_2023_a.%.csv requests_2018_b.%.csv requests_2019_b.%.csv requests_2020_b.%.csv requests_2021_b.%.csv requests_2022_b.%.csv requests_2023_b.%.csv
 	csvstack $^ > $@
 
 requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv raw_requests_%.csv requests_%.notes.csv requests_%.photos.csv : service_requests_api_%.json
@@ -68,8 +68,11 @@ requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv 
 service_requests_api_%.json: service_requests_api_%.ldjson
 	cat $< | jq -s '.' > $@
 
-service_requests_api_%.ldjson :
-	chicagorequests --start-date=$(*)-01-01 --end-date=$(*)-12-31| sort | uniq > $@
+service_requests_api_%_a.ldjson :
+	chicagorequests --start-date=$(*)-01-01 --end-date=$(*)-6-31| sort | uniq > $@
+
+service_requests_api_%_b.ldjson :
+	chicagorequests --start-date=$(*)-7-01 --end-date=$(*)-12-31| sort | uniq > $@
 
 ## Analysis
 .PHONY : parameters
