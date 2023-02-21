@@ -69,10 +69,10 @@ service_requests_api_%.json: service_requests_api_%.ldjson
 	cat $< | jq -s '.' > $@
 
 service_requests_api_%_a.ldjson :
-	chicagorequests --start-date=$(*)-01-01 --end-date=$(*)-6-31| sort | uniq > $@
+	chicagorequests --start-date=$(*)-01-01 --end-date=$(*)-06-30 | sort | uniq > $@
 
 service_requests_api_%_b.ldjson :
-	chicagorequests --start-date=$(*)-7-01 --end-date=$(*)-12-31| sort | uniq > $@
+	chicagorequests --start-date=$(*)-07-01 --end-date=$(*)-12-31 | sort | uniq > $@
 
 ## Analysis
 .PHONY : parameters
