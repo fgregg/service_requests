@@ -1,6 +1,6 @@
-service_requests.db : portal_service_requests.csv attributes.csv	\
-                      geo_areas.csv notes.details.csv requests.csv	\
-                      notes.csv photos.csv
+service_requests.db : attributes.csv geo_areas.csv notes.details.csv	\
+                      requests.csv notes.csv photos.csv			\
+                      portal_service_requests.csv
 	csv-to-sqlite $^ $@
 	sqlite-utils convert $@ portal_service_requests CREATED_DATE 'r.parsedatetime(value)'
 	sqlite-utils convert $@ portal_service_requests LAST_MODIFIED_DATE 'r.parsedatetime(value)'
