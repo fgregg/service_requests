@@ -46,10 +46,10 @@ portal_service_requests.csv.gz :
 %.csv : requests.%.csv
 	sed -r '1s/[a-z0-9]+\.//g' $< > $@
 
-requests.csv : raw_requests_2018_a.csv raw_requests_2019_a.csv raw_requests_2020_a.csv raw_requests_2021_a.csv raw_requests_2022_a.csv raw_requests_2023_a.csv raw_requests_2018_b.csv raw_requests_2019_b.csv raw_requests_2020_b.csv raw_requests_2021_b.csv raw_requests_2022_b.csv
+requests.csv : raw_requests_2019_a.csv raw_requests_2020_a.csv raw_requests_2021_a.csv raw_requests_2022_a.csv raw_requests_2023_a.csv raw_requests_2018_b.csv raw_requests_2019_b.csv raw_requests_2020_b.csv raw_requests_2021_b.csv raw_requests_2022_b.csv
 	csvstack $^ | sed -r '1s/[a-z0-9]+\.//g' > $@
 
-requests.%.csv : requests_2018_a.%.csv requests_2019_a.%.csv requests_2020_a.%.csv requests_2021_a.%.csv requests_2022_a.%.csv requests_2023_a.%.csv requests_2018_b.%.csv requests_2019_b.%.csv requests_2020_b.%.csv requests_2021_b.%.csv requests_2022_b.%.csv
+requests.%.csv : requests_2019_a.%.csv requests_2020_a.%.csv requests_2021_a.%.csv requests_2022_a.%.csv requests_2023_a.%.csv requests_2018_b.%.csv requests_2019_b.%.csv requests_2020_b.%.csv requests_2021_b.%.csv requests_2022_b.%.csv
 	csvstack $^ > $@
 
 requests_%.attributes.csv requests_%.geo_areas.csv requests_%.notes.details.csv raw_requests_%.csv requests_%.notes.csv requests_%.photos.csv : service_requests_api_%.json
