@@ -1,3 +1,4 @@
 csv-to-sqlite
 sqlite-utils
 chicagorequests
+pandas<2
